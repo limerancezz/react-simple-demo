@@ -41,7 +41,7 @@
         component: './404',
       },
     ],
-  },~
+  },
   {
     name: 'list.table-list',
     icon: 'table',

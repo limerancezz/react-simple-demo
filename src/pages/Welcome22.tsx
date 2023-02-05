@@ -28,7 +28,6 @@ const onFinish = (values: any) => {
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);
-  console.log('Failed:', errorInfo);
 };
 
 

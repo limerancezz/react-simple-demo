@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-components';
-import { Card, Typography, Space, Button, Form, Input, DatePicker, Tabs, Modal } from 'antd';
+import { Card, Space, Button, Form, Input, DatePicker, Tabs, Modal } from 'antd';
 import React, { useState } from 'react';
 import styles from './Welcome.less';
 import { createFromIconfontCN, AndroidOutlined, AppleOutlined } from '@ant-design/icons';

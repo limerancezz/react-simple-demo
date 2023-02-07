@@ -14,6 +14,12 @@
     ],
   },
   {
+    path: '/test',
+    name: 'test',
+    icon: 'smile',
+    component: './Test',
+  },
+  {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',

@@ -1,41 +1,22 @@
 import { PageContainer } from '@ant-design/pro-components';
-import {
-  Card,
-  Typography,
-  Space,
-  Button,
-  Form,
-  Input,
-  message,
-  DatePicker,
-  Tabs,
-  Modal,
-} from 'antd';
+import { Card, Typography, Space, Button, Form, Input, DatePicker, Tabs, Modal } from 'antd';
 import React, { useState } from 'react';
 import styles from './Welcome.less';
 import { createFromIconfontCN, AndroidOutlined, AppleOutlined } from '@ant-design/icons';
-import type { DatePickerProps, TabsProps } from 'antd';
-
-const CodePreview: React.FC = ({ children }) => (
-  <pre className={styles.pre}>
-    <code>
-      <Typography.Text copyable>{children}</Typography.Text>
-    </code>
-  </pre>
-);
+import type { DatePickerProps } from 'antd';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
 });
 
-const onFinish = (values: any) => {
-  // message.success('标题：' + values.title);
-  console.log('Success:', values);
-};
+// const onFinish = (values: any) => {
+//   // message.success('标题：' + values.title);
+//   console.log('Success:', values);
+// };
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
+// const onFinishFailed = (errorInfo: any) => {
+//   console.log('Failed:', errorInfo);
+// };
 
 const onChange: DatePickerProps['onChange'] = (date, dateString) => {
   console.log(date, dateString);
@@ -47,19 +28,28 @@ const doClick = () => {
 
 const Welcome: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [form] = Form.useForm();
+  const initialValues = {
+    title: '',
+    money: '',
+    date: '',
+  };
   const showModal = () => {
+    // console.log(form.getFieldsValue());
     setIsModalOpen(true);
   };
 
+  const hideModal = () => {
+    form.resetFields();
+  };
   const handleOk = () => {
-    console.info('');
     setIsModalOpen(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <PageContainer>
       <Card>
@@ -110,10 +100,11 @@ const Welcome: React.FC = () => {
                         labelCol={{ span: 2 }}
                         wrapperCol={{ span: 16 }}
                         style={{ maxWidth: 600 }}
-                        initialValues={{ remember: true }}
+                        form={form}
+                        initialValues={initialValues}
                         autoComplete="off"
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
+                        // onFinish={onFinish}
+                        // onFinishFailed={onFinishFailed}
                       >
                         <Form.Item label="标题" name="title">
                           <Input placeholder="请输入标题" />
@@ -127,7 +118,7 @@ const Welcome: React.FC = () => {
                           <DatePicker onChange={onChange} />
                         </Form.Item>
                         <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
-                          <Button type="primary" htmlType="submit" onClick={showModal}>
+                          {/* <Button type="primary" htmlType="submit" onClick={showModal}>
                             提交
                           </Button>
                           <Modal
@@ -139,8 +130,20 @@ const Welcome: React.FC = () => {
                             <p>Some contents...</p>
                             <p>Some contents...</p>
                             <p>Some contents...</p>
+                          </Modal> */}
+                          <Button type="primary" onClick={showModal}>
+                            提交
+                          </Button>
+                          <Modal
+                            title="Basic Information"
+                            open={isModalOpen}
+                            onOk={handleOk}
+                            onCancel={handleCancel}
+                          >
+                            <p>标题：{form.getFieldsValue().title}</p>
+                            <p>金额：{form.getFieldsValue().money}</p>
                           </Modal>
-                          <Button>取消</Button>
+                          <Button onClick={hideModal}>取消</Button>
                         </Form.Item>
                       </Form>
                     </Card>

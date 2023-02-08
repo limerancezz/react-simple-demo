@@ -165,3 +165,14 @@ const Welcome: React.FC = () => {
 };
 
 export default Welcome;
+
+{
+  /* <Card>
+  <Tabs defaultActiveKey="1" items={billItems} onChange={billChange} />
+  <Space wrap className={styles.summary}>
+  <Button type="primary">创建新的记账记录</Button>
+  <span>本月收入</span>
+  <Pie {...config} />;
+  </Space>
+ </Card> */
+}

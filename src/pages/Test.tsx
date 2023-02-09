@@ -2,7 +2,12 @@ import { PageContainer } from '@ant-design/pro-components';
 import { Card, Space, Button, Form, Input, DatePicker, Tabs, Modal, TabsProps } from 'antd';
 import React, { useState } from 'react';
 import styles from './Test.less';
-import { createFromIconfontCN, AndroidOutlined, AppleOutlined } from '@ant-design/icons';
+import {
+  createFromIconfontCN,
+  AndroidOutlined,
+  AppleOutlined,
+  CaretDownOutlined,
+} from '@ant-design/icons';
 import type { DatePickerProps } from 'antd';
 import { Pie } from '@ant-design/plots';
 import moment from 'moment';
@@ -210,7 +215,7 @@ const Test: React.FC = () => {
                           >
                             <p>标题：{form.getFieldsValue().title}</p>
                             <p>金额：{form.getFieldsValue().money}</p>
-                            <p>金额：{format(form.getFieldsValue().date)}</p>
+                            <p>日期：{format(form.getFieldsValue().date)}</p>
                           </Modal>
                           <Button onClick={hideModal}>取消</Button>
                         </Form.Item>
@@ -230,10 +235,12 @@ const Test: React.FC = () => {
                       </div>
                     </Card>
                     <Tabs defaultActiveKey="1" items={items} onChange={billChange} />
-                    <Space wrap>
-                      <Button type="primary">创建新的记账记录</Button>
+                    <div>
+                      <Button type="primary" className={styles.createRecord}>
+                        创建新的记账记录
+                      </Button>
                       <Pie {...config} />;
-                    </Space>
+                    </div>
                   </Card>
                 ),
             };

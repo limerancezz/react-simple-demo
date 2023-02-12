@@ -2,12 +2,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import { Card, Space, Button, Form, Input, DatePicker, Tabs, Modal, TabsProps } from 'antd';
 import React, { useState } from 'react';
 import styles from './Test.less';
-import {
-  createFromIconfontCN,
-  AndroidOutlined,
-  AppleOutlined,
-  CaretDownOutlined,
-} from '@ant-design/icons';
+import { createFromIconfontCN, AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import type { DatePickerProps } from 'antd';
 import { Pie } from '@ant-design/plots';
 import moment from 'moment';
@@ -22,17 +17,25 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
   console.log(format(date));
 };
 
-const billChange = (key: string) => {
-  console.log(key);
-};
+function HelloMessage(props) {
+  console.info(props);
+  return <h1>Hello {props.name}!</h1>;
+}
 
 const Test: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [tabBtnValue, setTabBtnValue] = useState('first');
   const [form] = Form.useForm();
   const initialValues = {
     title: '',
     money: '',
     date: '',
+  };
+
+  const billChange = (key: string) => {
+    setTabBtnValue(key);
+    console.log(key);
   };
 
   const showModal = () => {
@@ -50,6 +53,16 @@ const Test: React.FC = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const getClass = (item) => {
+    if (currentItem && currentItem.id) {
+      if (item.id == currentItem.id) {
+        console.info(styles.choose + ' ' + styles.selected);
+        return styles.choose + ' ' + styles.selected;
+      }
+    }
+    return styles.choose;
   };
 
   const data = [
@@ -102,22 +115,33 @@ const Test: React.FC = () => {
 
   const items: TabsProps['items'] = [
     {
-      key: '1',
+      key: 'first',
       label: `图表模式`,
     },
     {
-      key: '2',
+      key: 'second',
       label: `列表模式`,
     },
   ];
-  const clickIcon1 = (e) => {
-    console.info(e);
-    e.target.style.background = 'red';
+  const clickIcon1 = (e, item) => {
+    setCurrentItem(item);
   };
 
   const clickIcon2 = () => {
     console.info('456');
   };
+
+  const iconsList = [
+    { id: '1', icon: 'icon-tuichu', text: '退出' },
+    { id: '2', icon: 'icon-tuichu', text: '是豬' },
+    { id: '3', icon: 'icon-tuichu', text: '退出' },
+    { id: '4', icon: 'icon-tuichu', text: '退出' },
+    { id: '5', icon: 'icon-tuichu', text: '退出' },
+    { id: '6', icon: 'icon-tuichu', text: '退出' },
+    { id: '7', icon: 'icon-tuichu', text: '退出' },
+    { id: '8', icon: 'icon-tuichu', text: '退出' },
+    { id: '9', icon: 'icon-tuichu', text: '退出' },
+  ];
   return (
     <PageContainer>
       <Card>
@@ -137,35 +161,20 @@ const Test: React.FC = () => {
                 id == 1 ? (
                   <Card>
                     <Space className={styles.choose}>
-                      <div
-                        className={styles.classify}
-                        onClick={(e) => {
-                          clickIcon1(e);
-                        }}
-                      >
-                        <IconFont className={styles.icons} type="icon-tuichu" />
-                        <span>退出</span>
-                      </div>
-                      <div className={styles.classify} onClick={clickIcon2}>
-                        <IconFont className={styles.icons} type="icon-tuichu" />
-                        <span>退出</span>
-                      </div>
-                      <div className={styles.classify}>
-                        <IconFont className={styles.icons} type="icon-tuichu" />
-                        <span>退出</span>
-                      </div>
-                      <div className={styles.classify}>
-                        <IconFont className={styles.icons} type="icon-tuichu" />
-                        <span>退出</span>
-                      </div>
-                      <div className={styles.classify}>
-                        <IconFont className={styles.icons} type="icon-tuichu" />
-                        <span>退出</span>
-                      </div>
-                      <div className={styles.classify}>
-                        <IconFont className={styles.icons} type="icon-tuichu" />
-                        <span>退出</span>
-                      </div>
+                      {iconsList.map((item) => {
+                        return (
+                          <div
+                            className={getClass(item)}
+                            onClick={(event) => {
+                              clickIcon1(event, item);
+                            }}
+                            key={item.id}
+                          >
+                            <IconFont className={styles.icons} type={item.icon} />
+                            <span>{item.text}</span>
+                          </div>
+                        );
+                      })}
                     </Space>
                     <Card>
                       <Form
@@ -239,8 +248,9 @@ const Test: React.FC = () => {
                       <Button type="primary" className={styles.createRecord}>
                         创建新的记账记录
                       </Button>
-                      <Pie {...config} />;
+                      {tabBtnValue == 'first' && <Pie {...config} />}
                     </div>
+                    {tabBtnValue == 'second' && <HelloMessage name="zhangsan"></HelloMessage>}
                   </Card>
                 ),
             };

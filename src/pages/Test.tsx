@@ -14,29 +14,29 @@ const format = (value: any) => {
   return moment(value).format('yyyy-MM-DD'); //将时间格式转成yyyy-MM-DD
 };
 const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-  console.log(format(date));
+  console.log(format(date)); //DatePicker日期选择框
 };
 
 function HelloMessage(props) {
   console.info(props);
   return <h1>Hello {props.name}!</h1>;
-}
+} //当为页面二时，取HelloMessage中的name属性，返回为<h1>Hello,zhangsan</h1>
 
 const Test: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
-  const [tabBtnValue, setTabBtnValue] = useState('first');
+  const [isModalOpen, setIsModalOpen] = useState(false); //控制对话框的初始状态
+  const [currentItem, setCurrentItem] = useState({ id: 1 }); //定义初始currentItem为null（3）
+  const [tabBtnValue, setTabBtnValue] = useState('first'); //控制页面二中tabs的默认页
   const [form] = Form.useForm();
   const initialValues = {
     title: '',
     money: '',
     date: '',
-  };
+  }; //initialValues（初始值）的定义（1）
 
   const billChange = (key: string) => {
     setTabBtnValue(key);
     console.log(key);
-  };
+  }; 
 
   const showModal = () => {
     // console.log(form.getFieldsValue());
@@ -45,24 +45,25 @@ const Test: React.FC = () => {
   };
 
   const hideModal = () => {
-    form.resetFields();
+    form.resetFields(); //重置一组字段到 initialValues（初始值）initialValues（初始值）中定义了空字符串 （1
   };
   const handleOk = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(false); //点击时改变对话框的状态，点击确定时取消modal(modal中的按钮)
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(false); //点击时改变对话框的状态，点击取消时取消modal（modal中的按钮）
   };
 
-  const getClass = (item) => {
+  const getClassByIsClick = (item) => {
     if (currentItem && currentItem.id) {
+      //判断是否有currentItem，如果有进入内部（3）
       if (item.id == currentItem.id) {
-        console.info(styles.choose + ' ' + styles.selected);
-        return styles.choose + ' ' + styles.selected;
+        //判断当前元素和缓存的currentItem是否为同一个，如果是，进入内部
+        return styles.choose + ' ' + styles.selected; //判断是同一个，给元素添加.selected 样式，拼接class字符串
       }
     }
-    return styles.choose;
+    return styles.choose; //如果没有匹配就给默认的class
   };
 
   const data = [
@@ -111,7 +112,7 @@ const Test: React.FC = () => {
         type: 'element-active',
       },
     ],
-  };
+  }; //图表
 
   const items: TabsProps['items'] = [
     {
@@ -123,17 +124,13 @@ const Test: React.FC = () => {
       label: `列表模式`,
     },
   ];
-  const clickIcon1 = (e, item) => {
-    setCurrentItem(item);
-  };
-
-  const clickIcon2 = () => {
-    console.info('456');
+  const clickIcon = (item) => {
+    setCurrentItem(item); //b对应入参的item，即iconsList中的项（2）
   };
 
   const iconsList = [
     { id: '1', icon: 'icon-tuichu', text: '退出' },
-    { id: '2', icon: 'icon-tuichu', text: '是豬' },
+    { id: '2', icon: 'icon-tuichu', text: '退出' },
     { id: '3', icon: 'icon-tuichu', text: '退出' },
     { id: '4', icon: 'icon-tuichu', text: '退出' },
     { id: '5', icon: 'icon-tuichu', text: '退出' },
@@ -151,23 +148,23 @@ const Test: React.FC = () => {
       </Space> */}
         <Tabs
           defaultActiveKey="1"
-          items={[AppleOutlined, AndroidOutlined].map((Icon, i) => {
-            const id = String(i + 1);
+          items={[AppleOutlined, AndroidOutlined].map((icons, index) => {
+            const id = String(index + 1); //配置选项卡内容
 
             return {
-              label: <span>{id == 1 ? '收入' : '支出'}</span>,
+              label: <span>{id == '1' ? '收入' : '支出'}</span>,
               key: id,
               children:
-                id == 1 ? (
+                id == '1' ? (
                   <Card>
                     <Space className={styles.choose}>
                       {iconsList.map((item) => {
                         return (
                           <div
-                            className={getClass(item)}
-                            onClick={(event) => {
-                              clickIcon1(event, item);
-                            }}
+                            className={getClassByIsClick(item)}
+                            onClick={() => {
+                              clickIcon(item);
+                            }} //（2）
                             key={item.id}
                           >
                             <IconFont className={styles.icons} type={item.icon} />
@@ -227,6 +224,7 @@ const Test: React.FC = () => {
                             <p>日期：{format(form.getFieldsValue().date)}</p>
                           </Modal>
                           <Button onClick={hideModal}>取消</Button>
+                          {/* 重置字段为空 */}
                         </Form.Item>
                       </Form>
                     </Card>

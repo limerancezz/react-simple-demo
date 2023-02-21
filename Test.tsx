@@ -26,7 +26,7 @@ const Test: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); //控制对话框的初始状态
   const [currentItem, setCurrentItem] = useState({ id: 1 }); //定义初始currentItem为null（3）
   const [tabBtnValue, setTabBtnValue] = useState('first'); //控制页面二中tabs的默认页
-  const [form] = Form.useForm(); //	 经Form.useForm()创建的form控制实例，不提供时会自动创建
+  const [form] = Form.useForm();
   const initialValues = {
     title: '',
     money: '',
@@ -181,7 +181,6 @@ const Test: React.FC = () => {
                         style={{ maxWidth: 600 }}
                         form={form}
                         initialValues={initialValues}
-                        //表单默认值，只有初始化以及重置时生效
                         autoComplete="off"
                         // onFinish={onFinish}
                         // onFinishFailed={onFinishFailed}
